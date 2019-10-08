@@ -18,6 +18,9 @@ func main()  {
 	// Gold()
 }
 
+// MustCompile
+// FindStringSubmatch
+
 // BTC data
 func BTC() {	
 	url := "https://coinmarketcap.com/zh/currencies/bitcoin/"
@@ -34,13 +37,19 @@ func BTC() {
 	// fmt.Println(  r.Find(bodyBytes)  )
 	res := r.FindAllString(body, -1)
 	// fmt.Println(len(r.FindAllString(body, -1)))
+	// fmt.Println("PRICE", res[2])
+	// fmt.Println("MAX", res[5])
+	// fmt.Println("MIN", res[6])
+
+	flysnowRegexp := regexp.MustCompile(`<span data-currency-value>(.*?)</span>`)
+	price := flysnowRegexp.FindStringSubmatch(res[2])	
+	max := flysnowRegexp.FindStringSubmatch(res[5])	
+	min := flysnowRegexp.FindStringSubmatch(res[6])	
 	fmt.Println("****************BTC")
-	fmt.Println("PRICE", res[2])
-	fmt.Println("MAX", res[5])
-	fmt.Println("MIN", res[6])
+	fmt.Println("PRICE", price[1])
+	fmt.Println("MAX", max[1])
+	fmt.Println("MIN", min[1])
 	fmt.Println("****************")
-
-
 }
 
 // LTC data
@@ -58,14 +67,23 @@ func LTC() {
 	r, _ := regexp.Compile(`</span> <span class="info_val"><span class="convert">(.*?)</span></span></div> <div class="info_cell"><span class="info_tit">`)
 	res := r.FindAllString(body, -1)	
 	fmt.Println("****************LTC")
-	fmt.Println("MAX", res[5])
-	fmt.Println("MIN", res[6])
+	// fmt.Println("MAX", res[5])
+	// fmt.Println("MIN", res[6])
 
 	// r2, _ := regexp.Compile(`<span class="convert textRed">(.*?)</span>`)
 	r2, _ := regexp.Compile(`<div class="nav">1 LTC ≈ (.*?) CNY</div>`)	
 	res2 := r2.FindAllString(body, -1)
-	fmt.Println("PRICE", res2)
+	// fmt.Println("PRICE", res2)
 	// fmt.Println("PRICE", res2[0])
+
+	flysnowRegexp1 := regexp.MustCompile(`</span> <span class="info_val"><span class="convert">¥(.*?)</span></span></div> <div class="info_cell"><span class="info_tit">`)
+	flysnowRegexp2 := regexp.MustCompile(`<div class="nav">1 LTC ≈ (.*?) CNY</div>`)
+	price := flysnowRegexp2.FindStringSubmatch(res2[0])	
+	max := flysnowRegexp1.FindStringSubmatch(res[5])	
+	min := flysnowRegexp1.FindStringSubmatch(res[6])	
+	fmt.Println("PRICE", price[1])
+	fmt.Println("MAX", max[1])
+	fmt.Println("MIN", min[1])
 	fmt.Println("****************")
 }
 
@@ -84,12 +102,21 @@ func VTC() {
 	r, _ := regexp.Compile(`</span> <span class="info_val"><span class="convert">(.*?)</span></span></div> <div class="info_cell"><span class="info_tit">`)
 	res := r.FindAllString(body, -1)	
 	fmt.Println("****************VTC")
-	fmt.Println("MAX", res[5])
-	fmt.Println("MIN", res[6])
+	// fmt.Println("MAX", res[5])
+	// fmt.Println("MIN", res[6])
 
 	r2, _ := regexp.Compile(`<span class="convert textRed">(.*?)</span>`)
 	res2 := r2.FindAllString(body, -1)
-	fmt.Println("PRICE", res2[0])
+	// fmt.Println("PRICE", res2[0])
+
+	flysnowRegexp1 := regexp.MustCompile(`</span> <span class="info_val"><span class="convert">¥(.*?)</span></span></div> <div class="info_cell"><span class="info_tit">`)
+	flysnowRegexp2 := regexp.MustCompile(`<span class="convert textRed">(.*?)</span>`)
+	price := flysnowRegexp2.FindStringSubmatch(res2[0])	
+	max := flysnowRegexp1.FindStringSubmatch(res[5])	
+	min := flysnowRegexp1.FindStringSubmatch(res[6])	
+	fmt.Println("PRICE", price[1])
+	fmt.Println("MAX", max[1])
+	fmt.Println("MIN", min[1])
 	fmt.Println("****************")
 }
 
