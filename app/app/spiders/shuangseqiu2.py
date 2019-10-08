@@ -19,6 +19,4 @@ class DataSpider(scrapy.Spider):
         print("*"*100)
         print(r)
 
-        with open("data.txt", 'a') as f:
-            f.write(r)
 
